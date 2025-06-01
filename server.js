@@ -44,7 +44,13 @@ if (!process.env.AWS_REGION || !process.env.AWS_ACCESS_KEY_ID ||
 
 // CORS configuration
 app.use(cors({
-    origin: ['http://localhost:8080', 'https://pro-audio.onrender.com', 'https://surroundio.com'],
+    origin: [
+        'http://localhost:8080',
+        'https://pro-audio.onrender.com',
+        'https://surroundio.com',
+        'https://pro-audio.netlify.app',
+        'https://cheery-bienenstitch-8bad49.netlify.app'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true
