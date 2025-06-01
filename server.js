@@ -5,7 +5,6 @@ const multer = require('multer');
 const { S3Client, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 require('dotenv').config();
 
-const uploadRoutes = require('./upload');
 const Album = require('./models/Album');
 
 const app = express();
@@ -43,41 +42,18 @@ if (!process.env.AWS_REGION || !process.env.AWS_ACCESS_KEY_ID ||
     process.exit(1);
 }
 
-// ✅ 여러 도메인을 허용하도록 설정
-const allowedOrigins = [
-    'https://cheery-bienenstitch-8bad49.netlify.app',
-    'http://localhost:3000',
-    'http://localhost:8080',
-    'http://127.0.0.1:5500',
-    'https://pro-audio.netlify.app'
-];
-
-const corsOptions = {
-    origin: function(origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('CORS 차단: 허용되지 않은 origin'));
-        }
-    },
+// CORS configuration
+app.use(cors({
+    origin: ['http://localhost:8080', 'https://pro-audio.onrender.com', 'https://surroundio.com'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    credentials: false,
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-    maxAge: 3600
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Preflight 지원
+    credentials: true
+}));
 
 // 미들웨어 설정
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-
-// 업로드 라우트에 CORS 별도 적용
-app.use('/api/upload', cors(corsOptions), uploadRoutes);
 
 // AWS S3 설정
 const s3Client = new S3Client({

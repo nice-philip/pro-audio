@@ -63,9 +63,22 @@ function parseChineseDate(dateStr) {
 // ✅ 오디오 업로드 및 DB 저장 라우터
 router.post('/', upload.single('audio'), async(req, res) => {
     try {
+        console.log('[API] 受信データ:', {
+            name: req.body.name,
+            age: req.body.age,
+            gender: req.body.gender,
+            email: req.body.email,
+            date: req.body.date,
+            time: req.body.time,
+            memberKey: req.body.memberKey
+        });
+
         if (!req.file) {
-            console.log('❌ 没有上传音频文件');
-            return res.status(400).json({ message: '没有文件', code: 'FILE_REQUIRED' });
+            console.error('[API] 音声ファイルなし');
+            return res.status(400).json({
+                message: '音声ファイルを選択してください',
+                code: 'FILE_REQUIRED'
+            });
         }
 
         const {
@@ -83,18 +96,23 @@ router.post('/', upload.single('audio'), async(req, res) => {
         // 필수 항목 확인
         const required = [name, age, gender, email, date, time, memberKey];
         if (required.some(val => !val)) {
-            return res.status(400).json({ message: '缺少必填项', code: 'MISSING_FIELDS' });
+            console.error('[API] 必須項目不足:', required.filter(val => !val));
+            return res.status(400).json({
+                message: '必須項目が不足しています',
+                fields: required.filter(val => !val),
+                code: 'MISSING_FIELDS'
+            });
         }
 
         // 날짜 파싱
         let parsedDate;
         try {
             parsedDate = parseChineseDate(date);
-            console.log('✅ 날짜 파싱 성공:', parsedDate.toISOString());
+            console.log('[API] 日付パース成功:', parsedDate.toISOString());
         } catch (e) {
-            console.error('[日期转换失败]', e.message);
+            console.error('[API] 日付パース失敗:', e.message);
             return res.status(400).json({
-                message: '日期格式错误',
+                message: '日付フォーマットが正しくありません',
                 error: e.message,
                 code: 'DATE_PARSE_ERROR'
             });
@@ -109,9 +127,19 @@ router.post('/', upload.single('audio'), async(req, res) => {
             ContentType: req.file.mimetype,
         };
 
-        await s3Client.send(new PutObjectCommand(uploadParams));
+        try {
+            await s3Client.send(new PutObjectCommand(uploadParams));
+            console.log('[API] S3アップロード成功:', filename);
+        } catch (s3Error) {
+            console.error('[API] S3アップロード失敗:', s3Error);
+            return res.status(500).json({
+                message: 'ファイルアップロードに失敗しました',
+                code: 'S3_UPLOAD_ERROR',
+                error: process.env.NODE_ENV === 'development' ? s3Error.message : undefined
+            });
+        }
+
         const audioUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/audio/${filename}`;
-        console.log('✅ S3上传成功:', audioUrl);
 
         // MongoDB 저장
         const newAlbum = new Album({
@@ -125,16 +153,41 @@ router.post('/', upload.single('audio'), async(req, res) => {
             note: note || '',
             reservationCode: memberKey,
             audioUrl,
+            status: '処理中'
         });
 
-        await newAlbum.save();
-        console.log('✅ MongoDB保存成功:', newAlbum._id);
+        try {
+            await newAlbum.save();
+            console.log('[API] MongoDB保存成功:', newAlbum._id);
+        } catch (dbError) {
+            console.error('[API] MongoDB保存失敗:', dbError);
+            // S3에 업로드된 파일 삭제
+            try {
+                await s3Client.send(new DeleteObjectCommand({
+                    Bucket: process.env.AWS_BUCKET_NAME,
+                    Key: `audio/${filename}`
+                }));
+            } catch (deleteError) {
+                console.error('[API] S3ファイル削除失敗:', deleteError);
+            }
+            return res.status(500).json({
+                message: 'データベース保存に失敗しました',
+                code: 'DB_SAVE_ERROR',
+                error: process.env.NODE_ENV === 'development' ? dbError.message : undefined
+            });
+        }
 
-        res.status(200).json({ message: '保存完成', url: audioUrl });
+        res.status(200).json({
+            message: '保存完了',
+            url: audioUrl
+        });
 
     } catch (err) {
-        console.error('❌ 上传处理错误:', err);
-        res.status(500).json({ message: '预约创建失败', error: err.message });
+        console.error('[API] アップロード処理エラー:', err);
+        res.status(500).json({
+            message: '予約作成に失敗しました',
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
+        });
     }
 });
 
