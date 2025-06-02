@@ -339,6 +339,34 @@
     <script src="https://www.paypal.com/sdk/js?client-id=AQLq8syQg_UcfPSLtUJdB17tNbvg2YDVLejJh5RifWZqIs96zpVOK9-HyY2eTA0NkearMR6wTjqZFHOT&currency=HKD"></script>
     <script src="js/templatemo_script.js"></script>
     <style>
+        .blue {
+            color: #ff0000; /* Surround 텍스트 색상 */
+        }
+        
+        .btn-gradient {
+            background: #ff0000 !important; /* 버튼 배경 */
+            color: #ffff00 !important; /* 버튼 텍스트 */
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            background: #dd0000 !important;
+        }
+
+        /* 기존 스타일 유지 */
+        .templatemo-nav {
+            border: none;
+        }
+
+        .menu-holder li a {
+            border-bottom: none !important;
+        }
+
+        .tm-orange-text {
+            color: #ffff00 !important;
+        }
+
         .audio-player {
             position: absolute;
             top: 50%;
@@ -1006,18 +1034,19 @@
                 });
             }
 
-            // Mobile menu toggle
+            // 모바일 메뉴 토글
             $('#mobile_menu').on('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
                 $('#responsive-menu').slideToggle();
             });
 
-            // Close mobile menu when clicking menu items
+            // 메뉴 항목 클릭시 메뉴 닫기
             $('#responsive-menu a').on('click', function() {
                 $('#responsive-menu').slideUp();
             });
 
-            // Close mobile menu when clicking outside
+            // 메뉴 외부 클릭시 닫기
             $(document).on('click', function(e) {
                 if (!$(e.target).closest('#mobile_menu').length && !$(e.target).closest('#responsive-menu').length) {
                     $('#responsive-menu').slideUp();
