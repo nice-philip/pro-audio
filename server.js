@@ -49,10 +49,11 @@ app.use(cors({
         'https://pro-audio.onrender.com',
         'https://surroundio.com',
         'https://pro-audio.netlify.app',
-        'https://cheery-bienenstitch-8bad49.netlify.app'
+        'https://cheery-bienenstitch-8bad49.netlify.app',
+        'https://surroundio.life'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin'],
     credentials: true
 }));
 
