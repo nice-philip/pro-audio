@@ -44,17 +44,22 @@ if (!process.env.AWS_REGION || !process.env.AWS_ACCESS_KEY_ID ||
 
 // CORS configuration
 app.use(cors({
-    origin: [
-        'http://localhost:8080',
-        'https://pro-audio.onrender.com',
-        'https://surroundio.com',
-        'https://pro-audio.netlify.app',
-        'https://cheery-bienenstitch-8bad49.netlify.app'
-    ],
+    origin: '*',  // 모든 도메인 허용
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    credentials: true
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin'],
+    credentials: false  // credentials를 false로 설정
 }));
+
+// 추가 CORS 헤더
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
 
 // 미들웨어 설정
 app.use(express.json());
@@ -77,7 +82,7 @@ const storage = multer.memoryStorage();
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 50 * 1024 * 1024, // 50MB
+        fileSize: 10 * 1024 * 1024, // 10MB
         files: 1
     }
 });
