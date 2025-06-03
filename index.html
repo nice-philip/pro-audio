@@ -5,7 +5,7 @@
     	Pro Audio
     	http://www.templatemo.com/preview/templatemo_429_pro_audio
     -->
-    <title>Surroundio - プロフェッショナルオーディオ処理サービス</title>
+    <title>Surroundio - Professional Audio Processing Service</title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta charset="UTF-8">
@@ -15,302 +15,49 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/templatemo_style.css" rel="stylesheet" type="text/css">
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/audio-player.css">
-    <style>
-        /* 파일 업로드 영역 스타일링 */
-        .file-upload-wrapper {
-            position: relative;
-            min-height: 38px;
-            margin-bottom: 30px;
-            padding-top: 40px;
-        }
-        
-        .file-select-button {
-            position: absolute;
-            left: 0;
-            top: 0;
-            padding: 8px 16px;
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            z-index: 1;
-        }
-        
-        .file-select-button:hover {
-            background: #e9ecef;
-        }
-        
-        .custom-file-input {
-            opacity: 0;
-            width: 100%;
-            height: 38px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            cursor: pointer;
-            z-index: 2;
-        }
-        
-        .file-status-wrapper {
-            position: absolute;
-            top: 0;
-            left: 120px;
-            right: 0;
-            padding: 8px 0;
-        }
-        
-        .file-status {
-            display: block;
-            color: #666;
-            word-break: break-all;
-            line-height: 1.2;
-        }
-
-        /* 시간 입력 스타일링 */
-        .time-input::-webkit-datetime-edit-ampm-field {
-            display: none !important;
-        }
-        
-        .time-input::-webkit-clear-button {
-            display: none !important;
-        }
-        
-        .time-input::-webkit-inner-spin-button {
-            display: none !important;
-        }
-        
-        .time-input::-webkit-calendar-picker-indicator {
-            display: none !important;
-        }
-
-        /* jQuery UI 달력 스타일 커스터마이징 */
-        .ui-datepicker {
-            font-family: 'Open Sans', Arial, sans-serif;
-            font-size: 14px;
-            background: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .ui-datepicker-header {
-            background: #f8f9fa;
-            border: none;
-            padding: 10px;
-        }
-        
-        .ui-datepicker-title {
-            color: #333;
-        }
-        
-        .ui-datepicker-calendar th {
-            color: #666;
-        }
-        
-        .ui-datepicker-calendar td {
-            padding: 3px;
-        }
-        
-        .ui-datepicker-calendar td a {
-            text-align: center;
-        }
-
-        /* 음악 플레이어 스타일 */
-        .audio-player-container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            margin-bottom: 30px;
-        }
-
-        .audio-player {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            width: 80%;
-            text-align: center;
-            z-index: 10;
-        }
-
-        .player-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-
-        .player-controls button {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .player-controls button:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .play-pause-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin: 0 auto 10px;
-            position: relative;
-        }
-
-        .song-info {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .song-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .song-artist {
-            font-size: 14px;
-            color: #999;
-        }
-
-        .progress-area {
-            margin-bottom: 15px;
-        }
-
-        .progress-bar {
-            height: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 5px;
-        }
-
-        .progress {
-            height: 100%;
-            background: #27a7ff;
-            border-radius: 5px;
-            width: 0%;
-            position: relative;
-        }
-
-        .time {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #999;
-        }
-
-        .volume-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .volume-slider {
-            flex: 1;
-            height: 5px;
-            -webkit-appearance: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
-            background: #27a7ff;
-            border-radius: 50%;
-        }
-
-        .playlist {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0 0 0;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .playlist li {
-            padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .playlist li:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .playlist li.playing {
-            background: #27a7ff;
-            color: white;
-        }
-
-        .playlist li .song-duration {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .playlist li.playing .song-duration {
-            color: white;
-        }
-    </style>
 </head>
 
 <body>
-    <nav id="responsive-menu">
-        <ul class="menu-holder">
-            <li><a href="#home"><i class="fa fa-home"></i>Home</a></li>
-            <li><a href="#subscribe"><i class="fa fa-briefcase"></i>Subscribe</a></li>
-            <li><a href="#albums"><i class="fa fa-cogs"></i>Albums</a></li>
-            <li><a href="#about"><i class="fa fa-list"></i>About</a></li>
-            <li><a href="#services"><i class="fa fa-list"></i>Services</a></li>            
-            <li><a href="#contact"><i class="fa fa-briefcase"></i>Contact</a></li>
-        </ul>
-    </nav>
     <div class="templatemo-header">
-        <div class="templatemo-header-gradient-bg"></div>
-        <div class="container">
-            <h1 class="text-center text-uppercase templatemo-site-name"><span class="blue">Pro</span> Audio</h1>
+    <div class="templatemo-header-gradient-bg"></div>
+    <div class="container">
+        <h1 class="text-center text-uppercase templatemo-site-name">
+            <span style="color: #ff0000;">Surroundio</span>
+        </h1>
             <nav class="hidden-xs text-center text-uppercase templatemo-nav">
                 <ul class="menu-holder">
-                    <li class="active"><a href="#home">Home</a></li>
-                    <li><a href="#subscribe">Subscribe</a></li>
-                    <li><a href="#albums">Albums</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">services</a></li>                    
-                    <li><a href="#contact">Contact</a></li>
+                    <li class="active"><a href="#home">首页</a></li>
+                    <li><a href="#subscribe">预约申请</a></li>
+                    <li><a href="#albums">专辑</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#services">服务</a></li>
+                    <li><a href="#contact">联系我们</a></li>
                 </ul>
             </nav>
             <div class="text-right visible-xs">
-                <a href="#" id="mobile_menu"><span class="fa fa-bars"></span></a>
+                <a href="#" id="mobile_menu">
+                    <div class="hamburger-lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
             </div>
         </div>
+    </div>
+    <div id="responsive-menu" class="visible-xs">
+        <ul class="menu-holder">
+    <li><a href="#home"><i class="fa fa-home"></i> 首页</a></li>
+    <li><a href="#subscribe"><i class="fa fa-calendar"></i> 预约申请</a></li>
+    <li><a href="#albums"><i class="fa fa-music"></i> 专辑</a></li>
+    <li><a href="#about"><i class="fa fa-info-circle"></i> 关于我们</a></li>
+    <li><a href="#services"><i class="fa fa-cogs"></i> 服务</a></li>
+    <li><a href="#contact"><i class="fa fa-envelope"></i> 联系我们</a></li>
+</ul>
+
     </div>
     <div class="templatemo-header-image"></div>
     <div class="container">
@@ -321,10 +68,10 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <h2 class="text-right">High Quality</h2>
-                    <h3 class="text-uppercase text-right margin-top-30">free responsive template</h3>
-                    <p class="text-right margin-top-30">Pro Audio is free responsive template for sound or musical websites.<br>
-                    This template is provided by templatemo. Credits go to <a rel="nofollow" href="http://www.smashingmagazine.com/2012/11/20/art-professions-icons-png/">Art Professions</a> Icon and <a rel="nofollow" href="http://unsplash.com">Unsplash</a> for images used in this template.</p>
-                    <a href="#" class="pull-right btn-gradient margin-top-30 text-uppercase">Lorem ip</a>
+                    <h3 class="text-uppercase text-right margin-top-30">只需 1000 元</h3>
+                    <h4 class="text-uppercase text-right">从专辑制作到全球发行</h4>
+                    <p class="text-right margin-top-30">Surroundio 是一个适用于音乐制作与发行的免费响应式模板。只需 1000 元，即可获得基于 100 万数据库的 AI 引擎与专业音频工程师提供的音频修复、混音与母带处理服务，并支持发布到 160 个全球平台。我们还为成长型音乐人提供额外福利，助力他们持续发展。</p>
+                    <a href="#subscribe" class="pull-right btn-gradient margin-top-30 text-uppercase">立即预约</a>
                 </div>
             </div>
         </section>
@@ -347,11 +94,11 @@
                             </div>
                             <div class="form-group">
                                 <select id="gender" name="gender" class="form-control" required>
-                                    <option value="">选择性别...</option>
-                                    <option value="男">男</option>
-                                    <option value="女">女</option>
-                                    <option value="其他">其他</option>
-                                </select>
+									<option value="">选择性别...</option>
+									<option value="男">男</option>
+									<option value="女">女</option>
+									<option value="其他">其他</option>
+								</select>
                             </div>
                             <div class="form-group">
                                 <input type="email" id="email" name="email" class="form-control" placeholder="邮箱..." required>
@@ -388,10 +135,18 @@
                                     <span class="amount">HK$1200</span>
                                     <span class="currency">HKD</span>
                                 </div>
+                                <div class="payment-label text-center" style="margin-bottom: 10px;">
+                                    <span>通过 PayPal 安全支付</span>
+                                </div>
                                 <div id="paypal-button-container" class="text-center"></div>
+                                <div class="payment-info text-center" style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                                    <span>支持信用卡/借记卡支付</span>
+                                </div>
+                                <!-- Additional payment methods will be added here -->
                                 <div id="additional-payment-methods" class="text-center" style="margin-top: 20px;">
                                     <h5>其他支付方式</h5>
                                     <div class="payment-options" style="display: flex; justify-content: center; gap: 20px; margin-top: 15px;">
+                                        <!-- Payment method buttons will be added here -->
                                     </div>
                                 </div>
                             </div>
@@ -405,50 +160,36 @@
         </section>
         <img src="images/border.png" alt="Border" class="templatemo-border">
         <section id="albums" class="templatemo-section">
-            <h2 class="text-uppercase text-center">Albums</h2>
-            <div class="row margin-top-50">
-                <div class="col-lg-12">
-                    <div class="audio-player-container">
-                        <div class="audio-player">
-                            <div class="player-controls">
-                                <button class="prev-btn"><i class="fa fa-step-backward"></i></button>
-                                <button class="play-pause-btn"><i class="fa fa-play"></i></button>
-                                <button class="next-btn"><i class="fa fa-step-forward"></i></button>
-                            </div>
-                            <div class="song-info">
-                                <div class="song-title">노래 제목</div>
-                                <div class="song-artist">아티스트</div>
-                            </div>
-                            <div class="progress-area">
-                                <div class="progress-bar">
-                                    <div class="progress"></div>
-                                </div>
-                                <div class="time">
-                                    <span class="current">0:00</span>
-                                    <span class="duration">0:00</span>
-                                </div>
-                            </div>
-                            <div class="volume-container">
-                                <i class="fa fa-volume-up volume-icon"></i>
-                                <input type="range" class="volume-slider" min="0" max="100" value="100">
-                            </div>
-                            <audio id="main-audio"></audio>
-                            <ul class="playlist"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h2 class="text-uppercase text-center">专辑示例</h2>
             <div class="row margin-top-50 templatemo-albums-container">
                 <div class="col-lg-6 col-md-6 col-sm-6 templatemo-album">
                     <div class="templatemo-album-images">
                         <img src="images/albums/1.jpg" alt="Album 1" class="img-circle templatemo-album-img">
                         <img src="images/album-img-bg.png" alt="Album background" class="templatemo-album-img-bg">
                         <img src="images/circle_gray.png" alt="Album frame" class="templatemo-album-img-frame">
+                        <audio id="audio1" src="audio\song1.mp3"></audio>
+                        <audio id="audio2" src="audio\song2.mp3"></audio>
+                        <div class="audio-player" id="player1">
+                            <div class="play-pause-btn" onclick="togglePlay(1)">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress1"></div>
+                            </div>
+                        </div>
+                        <div class="audio-player" id="player2">
+                            <div class="play-pause-btn" onclick="togglePlay(2)">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress2"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="templatemo-album-description">
-                        <p class="templatemo-album-name">First Album</p>
-                        <p class="templatemo-album-artist">Artist One</p>
-                        <p class="templatemo-album-date">Pop/Rock</p>
+                        <p class="templatemo-album-name" onclick="togglePlay(1)" style="cursor: pointer;">处理前</p>
+                        <p class="templatemo-album-artist" onclick="togglePlay(2)" style="cursor: pointer;">处理后</p>
+                        <p class="templatemo-album-date" onclick="stopAudio(1)" style="cursor: pointer;">停止</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 templatemo-album">
@@ -456,11 +197,29 @@
                         <img src="images/albums/2.jpg" alt="Album 2" class="img-circle templatemo-album-img">
                         <img src="images/album-img-bg.png" alt="Album background" class="templatemo-album-img-bg">
                         <img src="images/circle_gray.png" alt="Album frame" class="templatemo-album-img-frame">
+                        <audio id="audio3" src="audio\song3.mp3"></audio>
+                        <audio id="audio4" src="audio\song4.mp3"></audio>
+                        <div class="audio-player" id="player3">
+                            <div class="play-pause-btn" onclick="togglePlay(3)">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress3"></div>
+                            </div>
+                        </div>
+                        <div class="audio-player" id="player4">
+                            <div class="play-pause-btn" onclick="togglePlay(4)">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress4"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="templatemo-album-description">
-                        <p class="templatemo-album-name">Album Two</p>
-                        <p class="templatemo-album-artist">Second Artist</p>
-                        <p class="templatemo-album-date">Hip Hop</p>
+                        <p class="templatemo-album-name" onclick="togglePlay(3)" style="cursor: pointer;">处理前</p>
+                        <p class="templatemo-album-artist" onclick="togglePlay(4)" style="cursor: pointer;">处理后</p>
+                        <p class="templatemo-album-date" onclick="stopAudio(2)" style="cursor: pointer;">停止</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 templatemo-album">
@@ -468,11 +227,29 @@
                         <img src="images/albums/3.jpg" alt="Album 3" class="img-circle templatemo-album-img">
                         <img src="images/album-img-bg.png" alt="Album background" class="templatemo-album-img-bg">
                         <img src="images/circle_gray.png" alt="Album frame" class="templatemo-album-img-frame">
+                        <audio id="audio5" src="audio\song5.mp3"></audio>
+                        <audio id="audio6" src="audio\song6.mp3"></audio>
+                        <div class="audio-player" id="player5">
+                            <div class="play-pause-btn" onclick="togglePlay(5)">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress5"></div>
+                            </div>
+                        </div>
+                        <div class="audio-player" id="player6">
+                            <div class="play-pause-btn" onclick="togglePlay(6)">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress6"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="templatemo-album-description">
-                        <p class="templatemo-album-name">Third Album</p>
-                        <p class="templatemo-album-artist">Artist Three</p>
-                        <p class="templatemo-album-date">Electronic</p>
+                        <p class="templatemo-album-name" onclick="togglePlay(5)" style="cursor: pointer;">处理前</p>
+                        <p class="templatemo-album-artist" onclick="togglePlay(6)" style="cursor: pointer;">处理后</p>
+                        <p class="templatemo-album-date" onclick="stopAudio(3)" style="cursor: pointer;">停止</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 templatemo-album">
@@ -480,48 +257,66 @@
                         <img src="images/albums/4.jpg" alt="Album 4" class="img-circle templatemo-album-img">
                         <img src="images/album-img-bg.png" alt="Album background" class="templatemo-album-img-bg">
                         <img src="images/circle_gray.png" alt="Album frame" class="templatemo-album-img-frame">
+                        <audio id="audio7" src="audio\song7.mp3"></audio>
+                        <audio id="audio8" src="audio\song8.mp3"></audio>
+                        <div class="audio-player" id="player7">
+                            <div class="play-pause-btn" onclick="togglePlay(7)">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress7"></div>
+                            </div>
+                        </div>
+                        <div class="audio-player" id="player8">
+                            <div class="play-pause-btn" onclick="togglePlay(8)">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="progress8"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="templatemo-album-description">
-                        <p class="templatemo-album-name">Album Four</p>
-                        <p class="templatemo-album-artist">Fourth Artist</p>
-                        <p class="templatemo-album-date">Techno</p>
+                        <p class="templatemo-album-name" onclick="togglePlay(7)" style="cursor: pointer;">处理前</p>
+                        <p class="templatemo-album-artist" onclick="togglePlay(8)" style="cursor: pointer;">处理后</p>
+                        <p class="templatemo-album-date" onclick="stopAudio(4)" style="cursor: pointer;">停止</p>
                     </div>
                 </div>
             </div>
         </section>
         <img src="images/border.png" alt="Border" class="templatemo-border">
         <section id="about" class="templatemo-section">
-            <h2 class="text-uppercase text-center">About</h2>
+            <h2 class="text-uppercase text-center">关于我们</h2>
             <div class="tm-about-img-container">
                 <img src="images/about-frame.png" alt="About frame" class="tm-about-frame img-responsive">
                 <img src="images/about.jpg" alt="About" class="tm-about-img img-responsive">
             </div>
-            <p class="margin-top-50 text-center">Nunc et nisi eu eros posuere congue. Nulla vitae iaculis metus, sed gravida metus. Donec mauris lorem, molestie vitae ultrices non, sodales quis tortor. Aenean ornare, purus id convallis rhoncus, felis lacus facilisis quam, in sollicitudin est sem ut ante. <a href="#">Lorem ipsum</a> dolor sit amet, consectetur adipiscing elit. Aenean quis eros quis lacus interdum accumsan id ut ante. Duis gravida massa sit amet malesuada tincidunt.</p>
+            <p class="margin-top-50 text-center">Surroundio 是由全球知名品牌 Shutterstock 联合推出的全新音频平台。我们基于超过 100 万条专业母带制作数据，让你的音乐拥有更清晰、更丰富的声音表现力。上传音频后，我们将完成音频修复、混音、并完成母带处理，并帮助你发布到全球 160 多个音乐平台。只需上传一次音频，就能获得专业级的最终效果。此外，Surroundio 还为成长型音乐人提供曝光机会、合作资源和品牌推广支持，助你一步步实现音乐梦想。</p>
         </section>
         <img src="images/border.png" alt="Border" class="templatemo-border">
         <section id="services" class="templatemo-section">
-            <h2 class="text-uppercase text-center">Services</h2>
+            <h2 class="text-uppercase text-center">服务</h2>
             <div class="row margin-top-50">
                 <article class="col-lg-4 col-md-4 col-sm-4 col-xs-12 templatemo-product">
-                    <img src="images/services/1.png" alt="Product 1" class="center-block">
-                    <h3 class="text-uppercase text-center">aenean socitun</h3>
-                    <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean quis eros quis lacus interdum accumsan id ut ante.</p>
+                    <img src="images/services/1.png" alt="AI Analysis" class="center-block">
+                    <h3 class="text-uppercase text-center">AI 精准分析</h3>
+                    <p class="text-center">基于 100 万条母带数据库的创新 AI 引擎，对你的音频进行深度解析与对比，智能识别音质弱点，并进行专业级别的音质增强与优化处理。</p>
                 </article>
                 <article class="col-lg-4 col-md-4 col-sm-4 col-xs-12 templatemo-product">
-                    <img src="images/services/2.png" alt="Product 2" class="center-block">
-                    <h3 class="text-uppercase text-center">Donec mauris lorem</h3>
-                    <p class="text-center">Nam ornare blandit ultrices. Aliquam facilisis quam eget nunc consectetur volutpat. Sed bibendum felis id erat cursus, ac volutpat metus ornare.</p>
+                    <img src="images/services/2.png" alt="Global Distribution" class="center-block">
+                    <h3 class="text-uppercase text-center">一键全球发布</h3>
+                    <p class="text-center">你的音乐将发行至 Amazone Music、Spotify、腾讯音乐等全球主流平台。通过 Surroundio，你的作品可触达全球听众，提升曝光率，实现真正的国际化。我们为你打通海外发行通道，节省时间与成本，让你的创作更有影响力。</p>
                 </article>
                 <article class="col-lg-4 col-md-4 col-sm-4 col-xs-12 templatemo-product">
-                    <img src="images/services/3.png" alt="Product 3" class="center-block">
-                    <h3 class="text-uppercase text-center">Curabitur elementum</h3>
-                    <p class="text-center">Aenean quis eros quis lacus interdum accumsan id ut ante. Curabitur elementum enim turpis, sed pharetra purus ornare sit amet.</p>
+                    <img src="images/services/3.png" alt="Professional Engineers" class="center-block">
+                    <h3 class="text-uppercase text-center">专业工程师</h3>
+                    <p class="text-center">我们邀请了经验丰富的专业母带工程师，为每一首作品进行精细审核与声音调整。无论是细节打磨还是整体音质控制，都由人工精修，确保达到行业最高标准。</p>
                 </article>
             </div>
         </section>
         <img src="images/border.png" alt="Border" class="templatemo-border">
         <section id="contact" class="templatemo-section">
-            <h2 class="text-uppercase text-center">Contact</h2>
+            <h2 class="text-uppercase text-center">联系我们</h2>
             <div class="margin-top-50">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div id="map-canvas"></div>
@@ -529,18 +324,18 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <form id="contactForm" class="tm-contact-form">
                         <div class="form-group">
-                            <input type="text" id="contact_name" name="contact_name" class="form-control" placeholder="Name..." required />
+                            <input type="text" id="contact_name" class="form-control" placeholder="姓名..." required />
                         </div>
                         <div class="form-group">
-                            <input type="email" id="contact_email" name="contact_email" class="form-control" placeholder="Email..." required />
+                            <input type="email" id="contact_email" class="form-control" placeholder="邮箱..." required />
                         </div>
                         <div class="form-group">
-                            <input type="text" id="contact_subject" class="form-control" placeholder="Subject..." />
+                            <input type="text" id="contact_subject" class="form-control" placeholder="主题..." required />
                         </div>
                         <div class="form-group">
-                            <textarea id="contact_message" class="form-control" rows="8" placeholder="Your message..."></textarea>
+                            <textarea id="contact_message" class="form-control" rows="8" placeholder="留言内容..." required></textarea>
                         </div>
-                        <button type="submit" class="btn text-uppercase tm-dark-bg tm-orange-text tm-send-btn btn-gradient">Send</button>
+                        <button type="submit" class="btn text-uppercase tm-dark-bg tm-orange-text tm-send-btn btn-gradient">发送</button>
                     </form>
                 </div>
             </div>
@@ -548,126 +343,552 @@
     </div>
     <footer class="templatemo-footer margin-top-50">
         <div class="container">
-            <p class="text-uppercase small templatemo-copyright">Copyright &copy; 2084 <a href="#">Company Name</a></p>
+            <p class="text-uppercase small templatemo-copyright">Surroundio copyright © 2022 Nationalux Canada, All rights reserved.</p>
             <img src="images/go-to-top.png" alt="Go to top" class="img-responsive tm-go-to-top">
         </div>
     </footer>
     <script src="js/jquery-1.11.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQXWJ6QWnA3X0JNzeykUpFLJCPxFb68r0"></script>
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AQLq8syQg_UcfPSLtUJdB17tNbvg2YDVLejJh5RifWZqIs96zpVOK9-HyY2eTA0NkearMR6wTjqZFHOT&currency=HKD&locale=zh_CN"></script>
     <script src="js/templatemo_script.js"></script>
-    <script type="module" src="js/config.js"></script>
-    <script type="module" src="js/api.js"></script>
-    <script type="module" src="js/form-handler.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="js/music-player.js"></script>
+    <style>
+        .blue {
+            color: #ff0000; /* 메인 타이틀 빨간색 */
+        }
+        
+        .btn-gradient {
+            background: #ffff00; /* 버튼 배경 노란색으로 변경 */
+            color: #ff0000 !important; /* 버튼 텍스트 빨간색으로 변경 */
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            background: #ffdd00; /* 호버 시 약간 더 진한 노란색 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 255, 0, 0.2);
+        }
+
+        .templatemo-nav {
+            border: none; /* 네비게이션 테두리 제거 */
+        }
+
+        .menu-holder li a {
+            border-bottom: none !important; /* 메뉴 항목 밑줄 제거 */
+        }
+
+        .tm-orange-text {
+            color: #ff0000 !important; /* 빨간색 텍스트 */
+        }
+
+        .templatemo-nav ul.menu-holder {
+            border: none !important; /* 메뉴 홀더의 테두리 제거 */
+        }
+
+        .templatemo-header {
+            border-bottom: none !important; /* 헤더 밑줄 제거 */
+        }
+        
+        .templatemo-header .templatemo-header-gradient-bg,
+        .container::before,
+        .container::after {
+            background: linear-gradient(to bottom, rgba(255, 255, 240, 0.6), rgba(255, 255, 240, 0.3));
+            height: 7px;
+            position: absolute;
+            left: 0;
+        }
+
+        /* 오디오 플레이어 관련 스타일 */
+        .audio-player {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            position: absolute !important;
+            pointer-events: none !important;
+        }
+
+        .circular-progress-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .circular-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(rgba(255, 102, 51, 0.3) 0deg, transparent 0deg);
+            transition: background 0.3s ease;
+        }
+
+        .templatemo-album-images {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-pause-btn, .progress-bar {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            position: absolute !important;
+            pointer-events: none !important;
+        }
+
+        /* 스크롤 시 배경색 변경 */
+        .gradient-yellow {
+            background: #616161 !important;
+            background-image: linear-gradient(to bottom, #616161, #383838) !important;
+            opacity: 1 !important;
+        }
+    </style>
     <script>
-        // EmailJS 초기화
-        (function() {
-            emailjs.init("YOUR_PUBLIC_KEY");
-        })();
+        function openAccordion() {
+            const content = document.getElementById('accordionContent');
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+            } else {
+                content.style.maxHeight = '2000px';
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            if (!confirm('请先完成支付后再提交申请。是否继续？')) {
+                return;
+            }
+            const form = document.getElementById('albumForm');
+            const submitButton = form.querySelector('button[type="submit"]');
+            const formData = new FormData(form);
+
+            const dateValue = $("#date").datepicker("getDate");
+            if (dateValue) {
+                formData.set("date", new Date(dateValue).toISOString());
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = '提交中...';
+
+            console.log('📤 文件上传开始');
+
+            fetch("https://pro-audio.onrender.com/api/reservations", {
+                method: "POST",
+                body: formData,
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(async response => {
+                const contentType = response.headers.get('content-type');
+                const isJson = contentType && contentType.includes('application/json');
+                const data = isJson ? await response.json() : await response.text();
+
+                if (!response.ok) {
+                    let errorMessage = 'アップロード失敗: ';
+                    if (isJson && data.code) {
+                        switch (data.code) {
+                            case 'MISSING_FIELDS':
+                                errorMessage += '必須項目が不足しています: ' + data.fields.join(', ');
+                                break;
+                            case 'FILE_REQUIRED':
+                                errorMessage += '音声ファイルを選択してください';
+                                break;
+                            case 'FILE_TOO_LARGE':
+                                errorMessage += 'ファイルが大きすぎます';
+                                break;
+                            case 'S3_UPLOAD_ERROR':
+                                errorMessage += 'ファイルアップロードに失敗しました。後でもう一度お試しください';
+                                break;
+                            case 'DB_SAVE_ERROR':
+                                errorMessage += '保存に失敗しました。後でもう一度お試しください';
+                                break;
+                            default:
+                                errorMessage += data.message || '後でもう一度お試しください';
+                        }
+                    } else {
+                        errorMessage += 'サーバーエラー。後でもう一度お試しください';
+                    }
+                    throw new Error(errorMessage);
+                }
+                return data;
+            })
+            .then(data => {
+                console.log('✅ アップロード成功:', data);
+                alert("🎉 申請が完了しました！");
+                form.reset();
+                document.getElementById('accordionContent').style.maxHeight = '0px';
+            })
+            .catch(error => {
+                console.error("❌ アップロード失敗:", error);
+                alert(error.message || 'アップロードに失敗しました。後でもう一度お試しください');
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = '申請完了';
+            });
+        }
+
+        let currentlyPlaying = null;
+        let currentPlayer = null;
+
+        function updateCircularProgress(audio, albumImage) {
+            if (!audio || !albumImage) return;
+            
+            const progress = (audio.currentTime / audio.duration) * 360;
+            const circularProgress = albumImage.querySelector('.circular-progress');
+            if (circularProgress) {
+                circularProgress.style.background = `conic-gradient(rgba(255, 102, 51, 0.3) ${progress}deg, transparent ${progress}deg)`;
+            }
+        }
+
+        function stopAudio(albumId) {
+            const trackIds = [albumId * 2 - 1, albumId * 2];
+            
+            trackIds.forEach(trackId => {
+                const audio = document.getElementById(`audio${trackId}`);
+                const player = document.getElementById(`player${trackId}`);
+                
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                    
+                    if (player) {
+                        const playIcon = player.querySelector('.play-pause-btn i');
+                        const progress = player.querySelector('.progress');
+                        if (playIcon) playIcon.className = 'fa fa-play';
+                        if (progress) progress.style.width = '0%';
+                    }
+                    
+                    const albumImage = player.closest('.templatemo-album-images');
+                    if (albumImage) {
+                        const circularProgress = albumImage.querySelector('.circular-progress');
+                        if (circularProgress) {
+                            circularProgress.style.background = 'conic-gradient(rgba(255, 102, 51, 0.3) 0deg, transparent 0deg)';
+                        }
+                    }
+
+                    if (currentlyPlaying === audio) {
+                        currentlyPlaying = null;
+                        currentPlayer = null;
+                    }
+                }
+            });
+        }
+
+        function togglePlay(id) {
+            const audio = document.getElementById(`audio${id}`);
+            const player = document.getElementById(`player${id}`);
+            const albumImage = player.closest('.templatemo-album-images');
+            const playBtn = player.querySelector('.play-pause-btn');
+            const playIcon = playBtn.querySelector('i');
+            const progress = player.querySelector('.progress');
+
+            if (!albumImage.querySelector('.circular-progress-container')) {
+                const container = document.createElement('div');
+                container.className = 'circular-progress-container';
+                const circularProgress = document.createElement('div');
+                circularProgress.className = 'circular-progress';
+                container.appendChild(circularProgress);
+                albumImage.appendChild(container);
+            }
+
+            if (currentlyPlaying && currentlyPlaying !== audio) {
+                currentlyPlaying.pause();
+                currentlyPlaying.currentTime = 0;
+                
+                const oldPlayer = currentPlayer;
+                const oldPlayIcon = oldPlayer.querySelector('.play-pause-btn i');
+                oldPlayIcon.className = 'fa fa-play';
+                
+                const oldAlbumImage = oldPlayer.closest('.templatemo-album-images');
+                const oldCircularProgress = oldAlbumImage.querySelector('.circular-progress');
+                if (oldCircularProgress) {
+                    oldCircularProgress.style.background = 'conic-gradient(rgba(255, 102, 51, 0.3) 0deg, transparent 0deg)';
+                }
+            }
+
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = 'fa fa-pause';
+                currentlyPlaying = audio;
+                currentPlayer = player;
+                
+                audio.addEventListener('timeupdate', function() {
+                    const progressPercent = (audio.currentTime / audio.duration) * 100;
+                    if (progress) progress.style.width = `${progressPercent}%`;
+                    updateCircularProgress(audio, albumImage);
+                });
+                
+                audio.addEventListener('ended', function() {
+                    playIcon.className = 'fa fa-play';
+                    if (progress) progress.style.width = '0%';
+                    const circularProgress = albumImage.querySelector('.circular-progress');
+                    if (circularProgress) {
+                        circularProgress.style.background = 'conic-gradient(rgba(255, 102, 51, 0.3) 0deg, transparent 0deg)';
+                    }
+                    currentlyPlaying = null;
+                    currentPlayer = null;
+                    audio.currentTime = 0;
+                });
+            } else {
+                audio.pause();
+                playIcon.className = 'fa fa-play';
+                const circularProgress = albumImage.querySelector('.circular-progress');
+                if (circularProgress) {
+                    circularProgress.style.background = 'conic-gradient(rgba(255, 102, 51, 0.3) 0deg, transparent 0deg)';
+                }
+                currentlyPlaying = null;
+                currentPlayer = null;
+            }
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                name: document.getElementById('contact_name').value,
+                email: document.getElementById('contact_email').value,
+                subject: document.getElementById('contact_subject').value,
+                message: document.getElementById('contact_message').value
+            };
+
+            emailjs.init("jfle4pXv1E8FEPCJv");
+
+            emailjs.send(
+                "service_jsn3q06",
+                "template_ha65rt7",
+                {
+                    to_email: "kmat0@naver.com",
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    subject: formData.subject,
+                    message: formData.message
+                }
+            ).then(
+                function(response) {
+                    alert("メッセージが正常に送信されました！");
+                    document.getElementById('contactForm').reset();
+                },
+                function(error) {
+                    console.error("送信失敗:", error);
+                    alert("メッセージの送信に失敗しました。もう一度お試しください。");
+                }
+            );
+        });
 
         $(document).ready(function() {
-            // 날짜 선택기 초기화
-            $("#date").datepicker({
-                dateFormat: 'yy-mm-dd',
-                minDate: 0,
-                maxDate: '+3M',
-                showOtherMonths: true,
-                selectOtherMonths: true
-            });
-
-            // 파일 업로드 처리
-            $('.custom-file-input').on('change', function() {
-                var fileName = $(this).val().split('\\').pop();
-                if (fileName) {
-                    $('.file-status').text(fileName);
-                } else {
-                    $('.file-status').text('未选择文件');
+            $.datepicker.setDefaults({
+                dateFormat: 'yy年mm月dd日',
+                monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                monthNamesShort: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
+                dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
+                dayNamesMin: ['日', '月', '火', '水', '木', '金', '土'],
+                showMonthAfterYear: true,
+                yearSuffix: '年',
+                changeMonth: true,
+                changeYear: true,
+                beforeShow: function(input, inst) {
+                    inst.dpDiv.addClass('custom-datepicker');
                 }
             });
 
-            // 시간 입력 포맷팅
-            $('.time-input').on('input', function() {
-                var value = $(this).val().replace(/\D/g, '');
-                if (value.length > 6) {
-                    value = value.substr(0, 6);
-                }
-                if (value.length >= 4) {
-                    value = value.substr(0, 2) + ':' + value.substr(2, 2) + ':' + value.substr(4);
-                } else if (value.length >= 2) {
-                    value = value.substr(0, 2) + ':' + value.substr(2);
-                }
-                $(this).val(value);
-            });
+            $("#date").datepicker();
 
-            // 신청서 폼 제출 처리
-            $('#albumForm').on('submit', function(e) {
-                e.preventDefault();
-                alert('预约申请已提交，请等待确认邮件！');
-                this.reset();
-                openAccordion(); // 폼 닫기
-            });
+            const timeInput = document.getElementById('time');
+            if (timeInput) {
+                $(timeInput).on('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
 
-            // Contact 폼 제출 처리
-            $('#contactForm').on('submit', function(e) {
-                e.preventDefault();
-                
-                var $form = $(this);
-                var $submitBtn = $form.find('button[type="submit"]');
-                var $messageStatus = $('#message_status');
-                
-                // 버튼 비활성화 및 로딩 표시
-                $submitBtn.prop('disabled', true).html('Sending...');
-                
-                // EmailJS를 사용하여 이메일 전송
-                emailjs.send("service_id", "template_id", {
-                    from_name: $('#contact_name').val(),
-                    from_email: $('#contact_email').val(),
-                    subject: $('#contact_subject').val(),
-                    message: $('#contact_message').val(),
-                    to_email: "kmat0@naver.com"
-                }).then(
-                    function(response) {
-                        $messageStatus
-                            .removeClass('alert-danger')
-                            .addClass('alert-success')
-                            .html('메시지가 성공적으로 전송되었습니다.')
-                            .slideDown();
-                        
-                        // 폼 초기화
-                        $form[0].reset();
-                    },
-                    function(error) {
-                        $messageStatus
-                            .removeClass('alert-success')
-                            .addClass('alert-danger')
-                            .html('메시지 전송에 실패했습니다. 다시 시도해주세요.')
-                            .slideDown();
+                    if (value.length >= 2) {
+                        let hours = value.substring(0, 2);
+                        if (parseInt(hours) > 23) hours = '23';
+                        value = hours + value.substring(2);
                     }
-                ).finally(function() {
-                    // 버튼 상태 복구
-                    $submitBtn.prop('disabled', false).html('Send');
-                    
-                    // 3초 후 상태 메시지 숨기기
-                    setTimeout(function() {
-                        $messageStatus.slideUp();
-                    }, 3000);
+                    if (value.length >= 4) {
+                        let minutes = value.substring(2, 4);
+                        if (parseInt(minutes) > 59) minutes = '59';
+                        value = value.substring(0, 2) + minutes + value.substring(4);
+                    }
+                    if (value.length >= 6) {
+                        let seconds = value.substring(4, 6);
+                        if (parseInt(seconds) > 59) seconds = '59';
+                        value = value.substring(0, 4) + seconds;
+                    }
+
+                    let formatted = '';
+                    if (value.length > 0) formatted = value.substring(0, 2);
+                    if (value.length > 2) formatted += ':' + value.substring(2, 4);
+                    if (value.length > 4) formatted += ':' + value.substring(4, 6);
+
+                    e.target.value = formatted;
+
+                    if (value.length === 6) {
+                        const [h, m, s] = [value.substring(0, 2), value.substring(2, 4), value.substring(4, 6)];
+                        document.querySelector('.time-display').textContent = `${h}时${m}分${s}秒`;
+                    } else {
+                        document.querySelector('.time-display').textContent = '请输入时间 (24小时制)';
+                    }
                 });
+
+                $(timeInput).on('blur', function(e) {
+                    const value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 0 && value.length < 6) {
+                        let padded = value.padEnd(6, '0');
+                        let formatted = padded.substring(0, 2) + ':' +
+                            padded.substring(2, 4) + ':' +
+                            padded.substring(4, 6);
+                        e.target.value = formatted;
+
+                        const [h, m, s] = [padded.substring(0, 2), padded.substring(2, 4), padded.substring(4, 6)];
+                        document.querySelector('.time-display').textContent = `${h}时${m}分${s}秒`;
+                    }
+                });
+            }
+
+            const fileInput = document.getElementById('audio');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const fileName = e.target.files[0]?.name;
+                    const statusElement = document.querySelector('.file-status');
+                    statusElement.textContent = fileName || '未选择文件';
+
+                    const buttonElement = document.querySelector('.file-select-button');
+                    buttonElement.textContent = fileName ? '更改文件' : '选择文件';
+                });
+            }
+
+            $('#mobile_menu').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('#responsive-menu').show().animate({"right":0});
+            });
+
+            $('#responsive-menu a').on('click', function() {
+                $('#responsive-menu').animate({"right":-1500}, function() {
+                    $(this).hide();
+                });
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#mobile_menu').length && !$(e.target).closest('#responsive-menu').length) {
+                    $('#responsive-menu').animate({"right":-1500}, function() {
+                        $(this).hide();
+                    });
+                }
+            });
+
+            $(window).on("load resize", function(){
+                if($(window).width()>768){
+                    $("#responsive-menu").css({"right":-1500}).hide();
+                }
+            });
+
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('.templatemo-header-gradient-bg, .container::before, .container::after').addClass('gradient-yellow');
+                } else {
+                    $('.templatemo-header-gradient-bg, .container::before, .container::after').removeClass('gradient-yellow');
+                }
             });
         });
 
-        // 아코디언 메뉴 기능
-        function openAccordion() {
-            var content = document.getElementById("accordionContent");
-            if (content.style.maxHeight === "0px" || !content.style.maxHeight) {
-                content.style.maxHeight = content.scrollHeight + "px";
-            } else {
-                content.style.maxHeight = "0px";
-            }
+        function initMap() {
+            const location = { lat: 37.5665, lng: 126.9780 };
+            
+            const mapStyles = [
+                {
+                    "featureType": "all",
+                    "elementType": "geometry",
+                    "stylers": [{"saturation": -100}, {"lightness": 50}]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "geometry",
+                    "stylers": [{"lightness": 100}]
+                }
+            ];
+
+            const mapOptions = {
+                center: location,
+                zoom: 15,
+                styles: mapStyles,
+                disableDefaultUI: true,
+                zoomControl: true
+            };
+
+            const map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                animation: google.maps.Animation.DROP,
+                title: 'Surroundio'
+            });
+
+            const contentString = 
+                '<div style="padding: 15px; max-width: 200px;">' +
+                '<h4 style="margin: 0 0 10px;">Surroundio</h4>' +
+                '<p style="margin: 0;">专业音频处理与发行服务</p>' +
+                '</div>';
+
+            const infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            marker.addListener('click', () => {
+                infowindow.open(map, marker);
+            });
         }
+
+        google.maps.event.addDomListener(window, 'load', initMap);
+
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color:  'gold',
+                shape:  'rect',
+                label:  'pay',
+                tagline: false
+            },
+            fundingSource: paypal.FUNDING.PAYPAL,
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '1200',
+                            currency_code: 'HKD'
+                        },
+                        description: 'Surroundio 音频处理服务'
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('支付成功！订单号: ' + details.id);
+                    document.getElementById('albumForm').submit();
+                });
+            },
+            onError: function(err) {
+                alert('支付过程中出现错误，请稍后重试。');
+                console.error('PayPal Error:', err);
+            }
+        }).render('#paypal-button-container');
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </body>
 
 </html>
