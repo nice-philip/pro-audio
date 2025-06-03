@@ -22,16 +22,18 @@
         .hamburger-lines {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
+            align-items: center;
             height: 24px;
-            width: 30px;
+            width: 24px;
             position: relative;
             margin: 15px;
+            gap: 6px;
         }
         .hamburger-lines span {
             display: block;
-            height: 3px;
-            width: 100%;
+            height: 2px;
+            width: 20px;
             background-color: #fff;
             border-radius: 2px;
         }
@@ -139,10 +141,10 @@
                             </div>
                             <div class="form-group">
                                 <div class="file-upload-wrapper">
-                                    <div class="file-select-button">选择文件</div>
+                                    <div class="file-select-button">文件输入</div>
                                     <input type="file" id="audio" name="audio" class="form-control custom-file-input" accept=".mp3,.wav" required>
                                     <div class="file-status-wrapper">
-                                        <small class="text-muted file-status">未选择文件</small>
+                                        <small class="text-muted file-status">没有输入的文件</small>
                                     </div>
                                 </div>
                             </div>
@@ -555,7 +557,7 @@
                     // 파일 선택 상태 초기화
                     const fileStatus = document.querySelector('.file-status');
                     const fileSelectButton = document.querySelector('.file-select-button');
-                    if (fileStatus) fileStatus.textContent = '未选择文件';
+                    if (fileStatus) fileStatus.textContent = '没有输入的文件';
                     if (fileSelectButton) fileSelectButton.textContent = '选择文件';
                 }
             })
@@ -792,7 +794,7 @@
                 fileInput.addEventListener('change', function(e) {
                     const fileName = e.target.files[0]?.name;
                     const statusElement = document.querySelector('.file-status');
-                    statusElement.textContent = fileName || '未选择文件';
+                    statusElement.textContent = fileName || '没有输入的文件';
 
                     const buttonElement = document.querySelector('.file-select-button');
                     buttonElement.textContent = fileName ? '更改文件' : '选择文件';
