@@ -50,7 +50,7 @@
         // Set/remove active class
         menuItems
          .parent().removeClass("active")
-         .end().filter("[href=#"+id+"]").parent().addClass("active");
+         .end().filter("[href='#"+id+"']").parent().addClass("active");
       }
 
       /* Change navigation header on scroll
