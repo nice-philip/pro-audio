@@ -192,26 +192,7 @@
     </a>
 
     <script src="js/jquery-1.11.1.min.js"></script>
-    <script>
-        // jQuery 충돌 방지
-        jQuery.noConflict();
-        (function($) {
-            $(document).ready(function() {
-                // 모바일 메뉴 토글
-                $('#mobile_menu').on('click', function(e) {
-                    e.preventDefault();
-                    $('#responsive-menu').slideToggle();
-                });
-
-                // 화면 크기 변경 시 메뉴 처리
-                $(window).resize(function() {
-                    if ($(window).width() > 768) {
-                        $('#responsive-menu').hide();
-                    }
-                });
-            });
-        })(jQuery);
-    </script>
+    <script src="js/templatemo_script.js"></script>
     <script>
         async function checkReservation() {
             const memberKey = document.getElementById('memberKey').value.trim();
@@ -221,32 +202,18 @@
             }
 
             try {
-                const response = await fetch(`https://pro-audio.onrender.com/api/reservations?key=${memberKey}`, {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'omit',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Origin': 'https://surroundio.life'
-                    }
-                });
-
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        document.getElementById('reservationResults').style.display = 'block';
-                        document.getElementById('reservationTableBody').innerHTML = 
-                            '<tr><td colspan="6" class="text-center">没有找到匹配的预约记录。</td></tr>';
-                        return;
-                    }
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
+                const response = await fetch(`https://pro-audio.onrender.com/api/reservations?key=${memberKey}`);
                 const result = await response.json();
-                displayReservations(result);
+
+                if (response.ok) {
+                    displayReservations(result);
+                } else {
+                    alert('查询失败：' + result.message);
+                    document.getElementById('reservationResults').style.display = 'none';
+                }
             } catch (error) {
                 console.error('Error:', error);
                 alert('查询失败，请稍后重试');
-                document.getElementById('reservationResults').style.display = 'none';
             }
         }
 
@@ -256,8 +223,8 @@
 
             tableBody.innerHTML = '';
 
-            if (!Array.isArray(reservations) || reservations.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center">没有找到匹配的预约记录。</td></tr>';
+            if (!reservations || reservations.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="text-center">没有找到匹配的预约记录。</td></tr>`;
                 resultsDiv.style.display = 'block';
                 return;
             }
@@ -270,10 +237,10 @@
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${reservation.reservationCode || '-'}</td>
-                    <td>${reservation.name || '-'}</td>
+                    <td>${reservation.reservationCode}</td>
+                    <td>${reservation.name}</td>
                     <td>${formattedDate}</td>
-                    <td>${reservation.albumLength || '-'}</td>
+                    <td>${reservation.albumLength}</td>
                     <td>${reservation.status || '处理中'}</td>
                     <td>
                         ${isAdmin ? `<button onclick="deleteReservation('${reservation._id}')" class="delete-btn">
@@ -293,22 +260,18 @@
             }
 
             try {
-                const response = await fetch(`https://pro-audio.onrender.com/api/reservations/${id}`, {
-                    method: 'DELETE',
-                    mode: 'cors',
-                    credentials: 'omit',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Origin': 'https://surroundio.life'
-                    }
+                const response = await fetch(`https://pro-audio.onrender.com/api/upload/${id}`, {
+                    method: 'DELETE'
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (response.ok) {
+                    alert('删除成功');
+                    // 重新加载预约列表
+                    checkReservation();
+                } else {
+                    const error = await response.json();
+                    alert('删除失败：' + (error.message || '请稍后重试'));
                 }
-
-                alert('删除成功');
-                checkReservation();
             } catch (error) {
                 console.error('Error:', error);
                 alert('删除失败，请稍后重试');
