@@ -486,18 +486,19 @@
                 method: "POST",
                 body: formData,
                 mode: 'cors',
-                credentials: 'same-origin',
+                credentials: 'omit',
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Origin': 'https://surroundio.life'
                 }
             })
             .then(async response => {
-                const contentType = response.headers.get('content-type');
-                const isJson = contentType && contentType.includes('application/json');
-                const data = isJson ? await response.json() : await response.text();
-
                 if (!response.ok) {
+                    const contentType = response.headers.get('content-type');
+                    const isJson = contentType && contentType.includes('application/json');
+                    const data = isJson ? await response.json() : await response.text();
                     console.error('Response not OK:', response.status, data);
+                    
                     let errorMessage = '上传失败: ';
                     if (isJson && data.code) {
                         switch (data.code) {
@@ -524,13 +525,21 @@
                     }
                     throw new Error(errorMessage);
                 }
-                return data;
+                return response.json();
             })
             .then(data => {
                 console.log('✅ 上传成功:', data);
                 alert("🎉 申请完成！");
                 form.reset();
-                document.getElementById('accordionContent').style.maxHeight = '0px';
+                const accordionContent = document.getElementById('accordionContent');
+                if (accordionContent) {
+                    accordionContent.style.maxHeight = '0';
+                    // 파일 선택 상태 초기화
+                    const fileStatus = document.querySelector('.file-status');
+                    const fileSelectButton = document.querySelector('.file-select-button');
+                    if (fileStatus) fileStatus.textContent = '未选择文件';
+                    if (fileSelectButton) fileSelectButton.textContent = '选择文件';
+                }
             })
             .catch(error => {
                 console.error("❌ 上传失败:", error);
