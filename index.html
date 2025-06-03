@@ -486,7 +486,7 @@
                 method: "POST",
                 body: formData,
                 mode: 'cors',
-                credentials: 'include',
+                credentials: 'same-origin',
                 headers: {
                     'Accept': 'application/json'
                 }
@@ -497,47 +497,48 @@
                 const data = isJson ? await response.json() : await response.text();
 
                 if (!response.ok) {
-                    let errorMessage = 'アップロード失敗: ';
+                    console.error('Response not OK:', response.status, data);
+                    let errorMessage = '上传失败: ';
                     if (isJson && data.code) {
                         switch (data.code) {
                             case 'MISSING_FIELDS':
-                                errorMessage += '必須項目が不足しています: ' + data.fields.join(', ');
+                                errorMessage += '必须项目不足: ' + data.fields.join(', ');
                                 break;
                             case 'FILE_REQUIRED':
-                                errorMessage += '音声ファイルを選択してください';
+                                errorMessage += '请选择音频文件';
                                 break;
                             case 'FILE_TOO_LARGE':
-                                errorMessage += 'ファイルが大きすぎます';
+                                errorMessage += '文件太大';
                                 break;
                             case 'S3_UPLOAD_ERROR':
-                                errorMessage += 'ファイルアップロードに失敗しました。後でもう一度お試しください';
+                                errorMessage += '文件上传失败。请稍后再试';
                                 break;
                             case 'DB_SAVE_ERROR':
-                                errorMessage += '保存に失敗しました。後でもう一度お試しください';
+                                errorMessage += '保存失败。请稍后再试';
                                 break;
                             default:
-                                errorMessage += data.message || '後でもう一度お試しください';
+                                errorMessage += data.message || '请稍后再试';
                         }
                     } else {
-                        errorMessage += 'サーバーエラー。後でもう一度お試しください';
+                        errorMessage += '服务器错误。请稍后再试';
                     }
                     throw new Error(errorMessage);
                 }
                 return data;
             })
             .then(data => {
-                console.log('✅ アップロード成功:', data);
-                alert("🎉 申請が完了しました！");
+                console.log('✅ 上传成功:', data);
+                alert("🎉 申请完成！");
                 form.reset();
                 document.getElementById('accordionContent').style.maxHeight = '0px';
             })
             .catch(error => {
-                console.error("❌ アップロード失敗:", error);
-                alert(error.message || 'アップロードに失敗しました。後でもう一度お試しください');
+                console.error("❌ 上传失败:", error);
+                alert(error.message || '上传失败。请稍后再试');
             })
             .finally(() => {
                 submitButton.disabled = false;
-                submitButton.textContent = '申請完了';
+                submitButton.textContent = '申请完成';
             });
         }
 
