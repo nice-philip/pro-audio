@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<head>
+    <title>Surroundio - Terms and Policies</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/templatemo_style.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f8f8;
+        }
+        .content-container {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .terms-content {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+            padding: 20px;
+            white-space: pre-wrap;
+        }
+        .header {
+            background: linear-gradient(to bottom, #4a4a4a, #3a3a3a);
+            padding: 20px 0;
+            text-align: center;
+            color: #fff;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff0000;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .back-button:hover {
+            background: #cc0000;
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="page-title">Loading...</h1>
+    </div>
+    <div class="content-container">
+        <div class="terms-content" id="content">Loading content...</div>
+    </div>
+    <a href="/" class="back-button">← 返回首页</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page');
+            
+            const titles = {
+                'publish-rules': '发布规则',
+                'copyright-management': '版权管理',
+                'terms-of-use': '使用条款'
+            };
+
+            if (page && titles[page]) {
+                document.getElementById('page-title').textContent = titles[page];
+                fetch(`/public/texts/${page}.txt`)
+                    .then(response => response.text())
+                    .then(text => {
+                        document.getElementById('content').textContent = text;
+                    })
+                    .catch(error => {
+                        document.getElementById('content').textContent = '内容加载失败。请稍后再试。';
+                        console.error('Error loading content:', error);
+                    });
+            } else {
+                document.getElementById('page-title').textContent = '页面未找到';
+                document.getElementById('content').textContent = '无效的页面请求。';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -37,6 +37,110 @@
             background-color: #fff;
             border-radius: 2px;
         }
+        /* Add these styles for footer positioning */
+        html {
+            height: 100%;
+        }
+        body {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            flex: 1;
+        }
+        .templatemo-footer {
+            margin-top: auto !important;
+            background-color: #f8f8f8;
+            padding: 20px 0;
+            width: 100%;
+            position: relative;
+        }
+        .footer-flex-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .footer-categories {
+            width: 100%;
+            padding-top: 40px;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .footer-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 30px;
+            justify-content: flex-start;
+            margin-left: 20px;
+        }
+        .category-item {
+            position: relative;
+        }
+        .category-toggle {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            padding: 5px 10px;
+        }
+        .category-toggle:hover {
+            color: #ff0000;
+            text-decoration: none;
+        }
+        .category-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 300px;
+            padding: 15px;
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 4px;
+            color: #000;
+            z-index: 1000;
+            white-space: pre-wrap;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+        .copyright-container {
+            margin-bottom: 20px;
+            margin-left: 20px;
+        }
+        .templatemo-copyright {
+            color: #000;
+            font-size: 12px;
+            text-align: left;
+        }
+        .category-content.html-content {
+            background: #fff;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .footer-menu {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 15px;
+                margin: 0;
+                padding: 20px 0;
+            }
+            .category-toggle {
+                font-size: 16px;
+                padding: 10px;
+                display: block;
+            }
+            .footer-categories {
+                margin-top: 0;
+                padding-top: 20px;
+            }
+        }
     </style>
 </head>
 
@@ -361,10 +465,30 @@
             </div>
         </section>
     </div>
-    <footer class="templatemo-footer margin-top-50">
+    <footer class="templatemo-footer">
         <div class="container">
-            <p class="text-uppercase small templatemo-copyright">Surroundio copyright © 2022 Nationalux Canada, All rights reserved.</p>
-            <img src="images/go-to-top.png" alt="Go to top" class="img-responsive tm-go-to-top">
+            <p class="text-uppercase small templatemo-copyright">
+                Surroundio copyright © 2022 Nationalux Canada, All rights reserved.
+            </p>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="footer-flex-container">
+                        <nav class="footer-categories">
+                            <ul class="footer-menu">
+                                <li class="category-item">
+                                    <a href="/terms-template.html?page=publish-rules" class="category-toggle">发布规则</a>
+                                </li>
+                                <li class="category-item">
+                                    <a href="/terms-template.html?page=copyright-management" class="category-toggle">版权管理</a>
+                                </li>
+                                <li class="category-item">
+                                    <a href="/terms-template.html?page=terms-of-use" class="category-toggle">使用条款</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="js/jquery-1.11.1.min.js"></script>
@@ -471,6 +595,62 @@
             background: #616161 !important;
             background-image: linear-gradient(to bottom, #616161, #383838) !important;
             opacity: 1 !important;
+        }
+
+        .footer-flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            width: 100%;
+        }
+        .footer-categories {
+            flex: 1;
+        }
+        .footer-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 30px;
+        }
+        .category-item {
+            position: relative;
+        }
+        .category-toggle {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            padding: 5px 10px;
+        }
+        .category-toggle:hover {
+            color: #ff0000;
+            text-decoration: none;
+        }
+        .category-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 300px;
+            padding: 15px;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 4px;
+            color: #fff;
+            z-index: 1000;
+            white-space: pre-wrap;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .copyright-container {
+            text-align: right;
+            padding-left: 20px;
+        }
+        .templatemo-copyright {
+            margin: 0;
+            white-space: nowrap;
         }
     </style>
     <script>
@@ -833,6 +1013,15 @@
                 } else {
                     $('.templatemo-header-gradient-bg, .container::before, .container::after').removeClass('gradient-yellow');
                 }
+            });
+
+            $('.category-toggle').click(function(e) {
+                // Navigate to the link normally
+            });
+
+            // Remove document click handler for categories
+            $(document).click(function(e) {
+                // No need to handle category clicks anymore
             });
         });
 
