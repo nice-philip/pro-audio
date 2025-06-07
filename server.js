@@ -90,9 +90,14 @@ const upload = multer({
 // 예약 조회 API
 app.get('/api/reservations', async(req, res) => {
     const key = req.query.key;
+    const email = req.query.email;
 
     if (!key) {
         return res.status(400).json({ message: '请输入预约号码' });
+    }
+
+    if (!email && key !== 'admin25') {
+        return res.status(400).json({ message: '请输入邮箱地址' });
     }
 
     try {
@@ -100,9 +105,13 @@ app.get('/api/reservations', async(req, res) => {
             const all = await Album.find().sort({ createdAt: -1 });
             return res.status(200).json(all);
         } else {
-            const userReservations = await Album.find({ reservationCode: key }).sort({ createdAt: -1 });
+            const userReservations = await Album.find({ 
+                reservationCode: key,
+                email: email 
+            }).sort({ createdAt: -1 });
+            
             if (userReservations.length === 0) {
-                return res.status(404).json({ message: '未找到预约信息' });
+                return res.status(404).json({ message: '未找到预约信息或邮箱地址与预约号码不匹配' });
             }
             return res.status(200).json(userReservations);
         }

@@ -154,7 +154,10 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-3">
                     <form class="tm-reservation-form">
                         <div class="form-group">
-                            <input type="text" id="memberKey" class="form-control" placeholder="请输入预约号码..." />
+                            <input type="email" id="userEmail" class="form-control" placeholder="请输入邮箱地址..." required />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="memberKey" class="form-control" placeholder="请输入预约号码..." required />
                         </div>
                         <button type="button" onclick="checkReservation()" class="btn text-uppercase tm-dark-bg tm-orange-text tm-send-btn btn-gradient center-block">查询预约</button>
                     </form>
@@ -196,13 +199,25 @@
     <script>
         async function checkReservation() {
             const memberKey = document.getElementById('memberKey').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+
             if (!memberKey) {
                 alert('请输入预约号码');
                 return;
             }
 
+            if (!userEmail) {
+                alert('请输入邮箱地址');
+                return;
+            }
+
+            if (!userEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                alert('请输入有效的邮箱地址');
+                return;
+            }
+
             try {
-                const response = await fetch(`https://pro-audio.onrender.com/api/reservations?key=${memberKey}`);
+                const response = await fetch(`https://pro-audio.onrender.com/api/reservations?key=${memberKey}&email=${encodeURIComponent(userEmail)}`);
                 const result = await response.json();
 
                 if (response.ok) {
