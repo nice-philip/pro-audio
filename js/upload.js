@@ -27,12 +27,12 @@ document.getElementById('albumForm').addEventListener('submit', async function(e
         }
 
         const result = await response.json();
-        alert('申請が完了しました。');
+        alert('申请已完成。');
         window.location.href = '/confirmation.html';
 
     } catch (error) {
         console.error('Error:', error);
-        alert('エラーが発生しました。もう一度お試しください。');
+        alert('发生错误。请再试一次。');
     } finally {
         document.getElementById('loadingOverlay').style.display = 'none';
     }
@@ -44,7 +44,7 @@ function validateForm() {
     const requiredFields = document.querySelectorAll('[required]');
     for (const field of requiredFields) {
         if (!field.value) {
-            alert('必須項目を入力してください。');
+            alert('请输入必填项目。');
             field.focus();
             return false;
         }
@@ -54,7 +54,7 @@ function validateForm() {
     const imageFile = document.querySelector('input[name="albumCover"]').files[0];
     if (imageFile) {
         if (imageFile.size > 10 * 1024 * 1024) { // 10MB limit
-            alert('画像サイズは10MB以下にしてください。');
+            alert('图像大小应为10MB以下。');
             return false;
         }
     }
@@ -70,7 +70,7 @@ function validateForm() {
     for (const agreement of agreements) {
         const checkbox = document.querySelector(`input[name="${agreement}"]`);
         if (!checkbox.checked) {
-            alert('すべての同意事項にチェックを入れてください。');
+            alert('请勾选所有同意事项。');
             checkbox.focus();
             return false;
         }
@@ -79,7 +79,7 @@ function validateForm() {
     // Platform selection validation
     const platforms = document.querySelectorAll('input[name="platforms[]"]:checked');
     if (platforms.length === 0) {
-        alert('少なくとも1つのプラットフォームを選択してください。');
+        alert('请至少选择一个平台。');
         return false;
     }
 
