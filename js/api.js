@@ -1,6 +1,6 @@
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://surroundio.today/api'
-    : 'http://localhost:8080/api';
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000/api'
+    : 'https://surroundio.life/api';
 
 const API_ENDPOINTS = {
     checkReservation: `${API_BASE_URL}/reservations`,

@@ -71,13 +71,11 @@ const s3Client = new S3Client({
 });
 
 const allowedOrigins = [
-    'https://brilliant-unicorn-a5395d.netlify.app',
     'https://cheery-bienenstitch-8bad49.netlify.app',
     'https://pro-audio.netlify.app',
     'https://pro-audio-cn.netlify.app',
-    'https://pro-audio-jp.netlify.app',
-    'https://surroundio.today',
-    'https://pro-audio-jp-1.onrender.com',
+    'https://surroundio.life',
+    'https://pro-audio.onrender.com',
     'http://localhost:3000',
     'http://localhost:8080',
     'http://127.0.0.1:5500'
