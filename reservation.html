@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
-    <title>予約確認 - Surroundio</title>
+    <title>预约确认 - Surroundio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
@@ -265,37 +265,45 @@
     <div class="templatemo-header">
         <div class="templatemo-header-gradient-bg"></div>
         <div class="container">
-            <h1 class="text-center text-uppercase templatemo-site-name">予約<span class="blue">確認</span></h1>
+            <h1 class="text-center text-uppercase templatemo-site-name">预约<span class="blue">确认</span></h1>
             <nav class="hidden-xs text-center text-uppercase templatemo-nav">
                 <ul class="menu-holder">
-                    <li><a href="index.html"><i class="fa fa-home"></i> ホーム</a></li>
-                    <li class="active"><a href="reservation.html">予約確認</a></li>
+                    <li><a href="index.html"><i class="fa fa-home"></i> 首页</a></li>
+                    <li class="active"><a href="reservation.html">预约确认</a></li>
                 </ul>
             </nav>
         </div>
     </div>
     <div class="templatemo-header-image"></div>
     <div class="container reservation-container">
-        <h2 class="text-center">予約確認</h2>
+        <h2 class="text-center">预约确认</h2>
 
         <form class="search-form" id="searchForm">
             <div class="form-group">
-                <label for="email">メールアドレス</label>
+                <label for="email">电子邮件地址</label>
                 <input type="email" class="form-control" id="email" required>
             </div>
             <div class="form-group">
-                <label for="password">パスワード</label>
+                <label for="password">密码</label>
                 <input type="password" class="form-control" id="password" required>
             </div>
-            <button type="submit" class="btn btn-primary" id="searchBtn">検索</button>
+            <button type="submit" class="btn btn-primary" id="searchBtn">搜索</button>
         </form>
 
         <div id="loadingMessage" class="loading" style="display: none;">
             <i class="fa fa-spinner"></i>
-            <p>検索中...</p>
+            <p>搜索中...</p>
         </div>
 
-        <div id="resultContainer" style="display: none;"></div>
+        <div id="resultContainer" style="display: none;">
+            <div class="result-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin: 0; color: #007bff;">搜索结果</h3>
+                <button type="button" id="closeResultBtn" class="btn btn-secondary" style="background-color: #6c757d; padding: 8px 15px; font-size: 14px;">
+                    <i class="fa fa-times"></i> 关闭
+                </button>
+            </div>
+            <div id="resultContent"></div>
+        </div>
         <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
     </div>
 
@@ -321,7 +329,7 @@
             const resultContainer = document.getElementById('resultContainer');
             const errorMessage = document.getElementById('errorMessage');
 
-            // UI 상태 초기화
+            // UI 状态初始化
             resultContainer.style.display = 'none';
             errorMessage.style.display = 'none';
             loadingMessage.style.display = 'block';
@@ -331,7 +339,7 @@
                 let apiEndpoint;
                 let requestBody;
 
-                // 관리자 권한 체크
+                // 管理员权限检查
                 if (password === 'admin25') {
                     apiEndpoint = 'https://pro-audio.onrender.com/api/reservation/admin';
                     requestBody = { email, password };
@@ -352,21 +360,21 @@
                 let data;
                 const contentType = response.headers.get('content-type');
                 
-                // JSON 응답 확인
+                // JSON 响应检查
                 if (contentType && contentType.includes('application/json')) {
                     data = await response.json();
                 } else {
-                    // JSON이 아닌 경우 (HTML 에러 페이지 등)
+                    // JSON不是的场合 (HTML 错误页面等)
                     const textResponse = await response.text();
                     console.error('Non-JSON response:', textResponse);
-                    throw new Error('サーバーエラーが発生しました。管理者にお問い合わせください。');
+                    throw new Error('服务器错误发生了。请与管理员联系。');
                 }
 
                 if (!response.ok) {
-                    throw new Error(data.message || '予約情報が見つかりませんでした。');
+                    throw new Error(data.message || '找不到预约信息。');
                 }
 
-                // 관리자인 경우 전체 목록 렌더링, 일반 사용자인 경우 개별 정보 렌더링
+                // 管理员场合 全部列表渲染, 普通用户场合 单独信息渲染
                 if (password === 'admin25') {
                     renderAdminReservations(data);
                 } else {
@@ -376,11 +384,11 @@
             } catch (error) {
                 console.error('Error:', error);
                 
-                // 네트워크 에러인 경우
+                // 网络错误场合
                 if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                    errorMessage.textContent = 'ネットワークエラーが発生しました。インターネット接続を確認してください。';
+                    errorMessage.textContent = '网络错误发生了。请检查互联网连接。';
                 } else {
-                    errorMessage.textContent = error.message || 'エラーが発生しました。';
+                    errorMessage.textContent = error.message || '错误发生了。';
                 }
                 
                 errorMessage.style.display = 'block';
@@ -391,64 +399,65 @@
             }
         });
 
-        // 일반 사용자용 개별 예약 정보 렌더링
+        // 普通用户用单独预约信息渲染
         function renderUserReservation(data) {
-            const container = document.getElementById('resultContainer');
+            const container = document.getElementById('resultContent');
             
-            // data가 배열인 경우 처리
+            // data是数组的场合处理
             if (Array.isArray(data) && data.length > 0) {
-                let reservationsHtml = '<h3>あなたの予約一覧</h3>';
+                let reservationsHtml = '<h3>你的预约一览</h3>';
                 
                 data.forEach((reservation, index) => {
                     reservationsHtml += `
                         <div class="album-details" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
-                            <h4>予約 #${index + 1}</h4>
-                            <p><strong>サービスタイプ:</strong> ${getServiceTypeText(reservation.serviceType)}</p>
-                            <p><strong>アルバム名（日本語）:</strong> ${reservation.albumNameDomestic || '未入力'}</p>
-                            <p><strong>アルバム名（English）:</strong> ${reservation.albumNameInternational || '未入力'}</p>
-                            <p><strong>アーティスト名（カナ）:</strong> ${reservation.artistNameKana || '未入力'}</p>
-                            <p><strong>アーティスト名（English）:</strong> ${reservation.artistNameEnglish || '未入力'}</p>
-                            <p><strong>バージョン情報:</strong> ${reservation.versionInfo || '未入力'}</p>
-                            <p><strong>配信開始希望日:</strong> ${formatDate(reservation.releaseDate)}</p>
-                            <p><strong>申請日:</strong> ${formatDate(reservation.createdAt)}</p>
-                            <p><strong>楽曲数:</strong> ${reservation.songs ? reservation.songs.length : 0}曲</p>
-                            <p><strong>配信プラットフォーム:</strong> ${reservation.platforms ? reservation.platforms.join(', ') : '未選択'}</p>
-                            <p><strong>YouTube収益化:</strong> ${reservation.youtubeMonetize ? 'あり' : 'なし'}</p>
-                            <p><strong>後払い選択:</strong> ${reservation.payLater ? 'あり' : 'なし'}</p>
+                            <h4>预约 #${index + 1}</h4>
+                            <p><strong>服务类型:</strong> ${getServiceTypeText(reservation.serviceType)}</p>
+                            <p><strong>专辑名（日语）:</strong> ${reservation.albumNameDomestic || '未输入'}</p>
+                            <p><strong>专辑名（English）:</strong> ${reservation.albumNameInternational || '未输入'}</p>
+                            <p><strong>艺术家名（カナ）:</strong> ${reservation.artistNameKana || '未输入'}</p>
+                            <p><strong>艺术家名（English）:</strong> ${reservation.artistNameEnglish || '未输入'}</p>
+                            <p><strong>版本信息:</strong> ${reservation.versionInfo || '未输入'}</p>
+                            <p><strong>发布开始希望日:</strong> ${formatDate(reservation.releaseDate)}</p>
+                            <p><strong>申请日:</strong> ${formatDate(reservation.createdAt)}</p>
+                            <p><strong>乐曲数:</strong> ${reservation.songs ? reservation.songs.length : 0}曲</p>
+                            <p><strong>发布平台:</strong> ${reservation.platforms ? reservation.platforms.join(', ') : '未选择'}</p>
+                            <p><strong>YouTube收益化:</strong> ${reservation.youtubeMonetize ? '有' : '无'}</p>
+                            <p><strong>后付款选择:</strong> ${reservation.payLater ? '有' : '无'}</p>
                         </div>
                     `;
                 });
                 
                 container.innerHTML = reservationsHtml;
             } else if (Array.isArray(data) && data.length === 0) {
-                container.innerHTML = '<p>該当する予約情報が見つかりませんでした。</p>';
+                container.innerHTML = '<p>找不到相应的预约信息。</p>';
             } else {
-                // 기존 단일 객체 처리 (호환성 유지)
+                // 原有单一对象处理 (兼容性保持)
                 container.innerHTML = `
                     <div class="album-details">
-                        <h3>アルバム情報</h3>
-                        <p><strong>サービスタイプ:</strong> ${getServiceTypeText(data.serviceType)}</p>
-                        <p><strong>アルバム名（日本語）:</strong> ${data.albumNameDomestic || '未入力'}</p>
-                        <p><strong>アルバム名（English）:</strong> ${data.albumNameInternational || '未入力'}</p>
-                        <p><strong>アーティスト名（カナ）:</strong> ${data.artistNameKana || '未入力'}</p>
-                        <p><strong>アーティスト名（English）:</strong> ${data.artistNameEnglish || '未入力'}</p>
-                        <p><strong>バージョン情報:</strong> ${data.versionInfo || '未入力'}</p>
-                        <p><strong>配信開始希望日:</strong> ${formatDate(data.releaseDate)}</p>
-                        <p><strong>申請日:</strong> ${formatDate(data.createdAt)}</p>
-                        <p><strong>楽曲数:</strong> ${data.songs ? data.songs.length : 0}曲</p>
-                        <p><strong>配信プラットフォーム:</strong> ${data.platforms ? data.platforms.join(', ') : '未選択'}</p>
-                        <p><strong>YouTube収益化:</strong> ${data.youtubeMonetize ? 'あり' : 'なし'}</p>
-                        <p><strong>後払い選択:</strong> ${data.payLater ? 'あり' : 'なし'}</p>
+                        <h3>专辑信息</h3>
+                        <p><strong>服务类型:</strong> ${getServiceTypeText(data.serviceType)}</p>
+                        <p><strong>专辑名（日语）:</strong> ${data.albumNameDomestic || '未输入'}</p>
+                        <p><strong>专辑名（English）:</strong> ${data.albumNameInternational || '未输入'}</p>
+                        <p><strong>艺术家名（カナ）:</strong> ${data.artistNameKana || '未输入'}</p>
+                        <p><strong>艺术家名（English）:</strong> ${data.artistNameEnglish || '未输入'}</p>
+                        <p><strong>版本信息:</strong> ${data.versionInfo || '未输入'}</p>
+                        <p><strong>发布开始希望日:</strong> ${formatDate(data.releaseDate)}</p>
+                        <p><strong>申请日:</strong> ${formatDate(data.createdAt)}</p>
+                        <p><strong>乐曲数:</strong> ${data.songs ? data.songs.length : 0}曲</p>
+                        <p><strong>发布平台:</strong> ${data.platforms ? data.platforms.join(', ') : '未选择'}</p>
+                        <p><strong>YouTube收益化:</strong> ${data.youtubeMonetize ? '有' : '无'}</p>
+                        <p><strong>后付款选择:</strong> ${data.payLater ? '有' : '无'}</p>
                     </div>
                 `;
             }
             
-            container.style.display = 'block';
+            // resultContainer를 표시
+            document.getElementById('resultContainer').style.display = 'block';
         }
 
-        // 관리자용 전체 예약 목록 렌더링
+        // 管理员用全部预约列表渲染
         function renderAdminReservations(data) {
-            const container = document.getElementById('resultContainer');
+            const container = document.getElementById('resultContent');
             const reservations = data.reservations || [];
             const stats = data.stats || {};
 
@@ -456,7 +465,7 @@
                 container.innerHTML = `
                     <div class="admin-info">
                         <h3>管理者画面</h3>
-                        <p>現在、登録された予約はありません。</p>
+                        <p>现在，注册的预约是空的。</p>
                     </div>
                 `;
             } else {
@@ -464,23 +473,23 @@
                 if (stats) {
                     statsHtml = `
                         <div class="stats-summary">
-                            <h3>予約統計</h3>
+                            <h3>预约统计</h3>
                             <div class="stats-grid">
                                 <div class="stat-item">
                                     <div class="stat-number">${stats.total || 0}</div>
-                                    <div class="stat-label">総予約数</div>
+                                    <div class="stat-label">总预约数</div>
                                 </div>
                                 <div class="stat-item">
                                     <div class="stat-number">${stats.audioOnly || 0}</div>
-                                    <div class="stat-label">音源作業のみ</div>
+                                    <div class="stat-label">音源作业的只有</div>
                                 </div>
                                 <div class="stat-item">
                                     <div class="stat-number">${stats.fullService || 0}</div>
-                                    <div class="stat-label">配信まで依頼</div>
+                                    <div class="stat-label">发布前委托</div>
                                 </div>
                                 <div class="stat-item">
                                     <div class="stat-number">${stats.payLater || 0}</div>
-                                    <div class="stat-label">後払い</div>
+                                    <div class="stat-label">后付款</div>
                                 </div>
                             </div>
                         </div>
@@ -489,31 +498,31 @@
 
                 const reservationsHtml = reservations.map((reservation, index) => `
                     <div class="reservation-item">
-                        <h4>予約 #${index + 1} - ${reservation.albumNameDomestic || '未入力'}</h4>
+                        <h4>预约 #${index + 1} - ${reservation.albumNameDomestic || '未输入'}</h4>
                         <div class="details">
                             <div class="detail-item">
-                                <strong>メール:</strong> ${reservation.email || '未入力'}
+                                <strong>邮件:</strong> ${reservation.email || '未输入'}
                             </div>
                             <div class="detail-item">
-                                <strong>サービス:</strong> ${getServiceTypeText(reservation.serviceType)}
+                                <strong>服务:</strong> ${getServiceTypeText(reservation.serviceType)}
                             </div>
                             <div class="detail-item">
-                                <strong>アーティスト:</strong> ${reservation.artistNameKana || '未入力'}
+                                <strong>艺术家:</strong> ${reservation.artistNameKana || '未输入'}
                             </div>
                             <div class="detail-item">
-                                <strong>申請日:</strong> ${formatDate(reservation.createdAt)}
+                                <strong>申请日:</strong> ${formatDate(reservation.createdAt)}
                             </div>
                             <div class="detail-item">
-                                <strong>配信希望日:</strong> ${formatDate(reservation.releaseDate)}
+                                <strong>发布希望日:</strong> ${formatDate(reservation.releaseDate)}
                             </div>
                             <div class="detail-item">
-                                <strong>楽曲数:</strong> ${reservation.songs ? reservation.songs.length : 0}曲
+                                <strong>乐曲数:</strong> ${reservation.songs ? reservation.songs.length : 0}曲
                             </div>
                             <div class="detail-item">
-                                <strong>後払い:</strong> ${reservation.payLater ? 'あり' : 'なし'}
+                                <strong>后付款:</strong> ${reservation.payLater ? '有' : '无'}
                             </div>
                             <div class="detail-item">
-                                <strong>YouTube収益化:</strong> ${reservation.youtubeMonetize ? 'あり' : 'なし'}
+                                <strong>YouTube收益化:</strong> ${reservation.youtubeMonetize ? '有' : '无'}
                             </div>
                         </div>
                     </div>
@@ -521,8 +530,8 @@
 
                 container.innerHTML = `
                     <div class="admin-info">
-                        <h3>管理者画面 - 全予約一覧</h3>
-                        <p>登録されている全ての予約情報を表示しています</p>
+                        <h3>管理者画面 - 全部预约一览</h3>
+                        <p>显示注册的所有预约信息</p>
                     </div>
                     ${statsHtml}
                     <div class="reservation-list">
@@ -531,24 +540,25 @@
                 `;
             }
             
-            container.style.display = 'block';
+            // resultContainer를 표시
+            document.getElementById('resultContainer').style.display = 'block';
         }
 
-        // 서비스 타입 텍스트 변환
+        // 服务类型文本转换
         function getServiceTypeText(serviceType) {
             switch(serviceType) {
                 case 'audioOnly':
-                    return '音源作業のみ依頼';
+                    return '音源作业的只有委托';
                 case 'fullService':
-                    return '配信まで依頼';
+                    return '发布前委托';
                 default:
-                    return '未選択';
+                    return '未选择';
             }
         }
 
-        // 날짜 포맷 함수
+        // 日期格式函数
         function formatDate(dateString) {
-            if (!dateString) return '未入力';
+            if (!dateString) return '未输入';
             
             try {
                 const date = new Date(dateString);
@@ -558,9 +568,13 @@
                     day: '2-digit'
                 });
             } catch (error) {
-                return '日付エラー';
+                return '日期错误';
             }
         }
+
+        document.getElementById('closeResultBtn').addEventListener('click', function() {
+            document.getElementById('resultContainer').style.display = 'none';
+        });
     </script>
 </body>
 

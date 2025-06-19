@@ -92,12 +92,7 @@ var map = '';
 var center;
 
 function initialize() {
-    const mapCanvas = document.getElementById('map-canvas');
-    if (mapCanvas) {
-        mapCanvas.innerHTML = '<div style="text-align: center; padding: 20px;">Google Maps is temporarily disabled</div>';
-        mapCanvas.style.backgroundColor = '#f5f5f5';
-        mapCanvas.style.border = '1px solid #ddd';
-    }
+    // 지도 초기화 로직은 index.html의 initMap() 함수에서 처리
 }
 
 function calculateCenter() {

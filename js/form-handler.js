@@ -12,25 +12,25 @@ async function handleSubmit(event) {
     
     try {
         // 로딩 상태 표시
-        submitButton.textContent = '发送中...';
+        submitButton.textContent = '送信中...';
         submitButton.disabled = true;
         
         const result = await uploadAudio(formData);
         
         // 성공 메시지 표시
-        alert('上传已完成！');
+        alert('アップロードが完了しました！');
         form.reset();
 
         // 파일 상태 초기화
         const fileStatus = document.querySelector('.file-status');
         const fileSelectButton = document.querySelector('.file-select-button');
-        if (fileStatus) fileStatus.textContent = '未选择文件';
-        if (fileSelectButton) fileSelectButton.textContent = '选择文件';
+        if (fileStatus) fileStatus.textContent = 'ファイルが選択されていません';
+        if (fileSelectButton) fileSelectButton.textContent = 'ファイルを選択';
         
     } catch (error) {
         // 에러 메시지 표시
         console.error('Upload error:', error);
-        alert(error.message || '发生错误');
+        alert(error.message || 'エラーが発生しました');
     } finally {
         // 버튼 상태 복구
         submitButton.textContent = originalText;
